@@ -17,30 +17,58 @@ MongoClient.connect(url, function (err, database) {
   }
   const db = database.db(dbName);
   console.log('Connected successfully to server');
-});
 
-app.get('/users/:id', (req, res) => {
-  const id = req.params.id;
-  db.collection('users').findOne({ _id: ObjectId(id) }, (err, user_doc) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(user_doc);
-    }
+  app.post('/users', (req, res) => {
+    const { firstName, lastName, adress } = req.body;
+    db.collection('users').insertOne(
+      { firstName, lastName, adress },
+      (err, obj) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(`succeful insert of object ${obj.insertedId}`);
+        }
+      }
+    );
   });
-});
 
-// POST /students { name: "Petter", age: 17 } => saves the student in db
-app.post('/users', (req, res) => {
-  const { id, firstName, lastName, adress } = req.body;
-  db.collection('users').insertOne(
-    { id, firstName, lastName, adress },
-    (err, obj) => {
+  app.get('/users', (req, res) => {
+    db.collection('users')
+      .find({})
+      .toArray((err, students) => {
+        if (err) {
+          console.error('error GET /users', err);
+          res.send(err);
+        } else {
+          res.send(students);
+        }
+      });
+  });
+
+  app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    console.log('id', id);
+    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
       if (err) {
         res.send(err);
       } else {
-        res.send(`succeful insert of object ${obj.insertedId}`);
+        res.send(`successful deletion of ${obj.deletedCount} documents`);
       }
-    }
-  );
+    });
+  });
 });
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
+
+/*
+Mall till att posta users:
+curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
+
+Mall till att se users lista: 
+curl http://localhost:3000/users
+
+Mall till att delete:
+curl -X DELETE http://localhost:3000/users/{id}
+*/
