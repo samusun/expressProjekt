@@ -32,6 +32,17 @@ MongoClient.connect(url, function (err, database) {
     );
   });
 
+  app.post('/products', (req, res) => {
+    const { name, cost, amount } = req.body;
+    db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(`succeful insert of object ${obj.insertedId}`);
+      }
+    });
+  });
+
   app.get('/users', (req, res) => {
     db.collection('users')
       .find({})
@@ -43,6 +54,31 @@ MongoClient.connect(url, function (err, database) {
           res.send(students);
         }
       });
+  });
+
+  app.get('/products', (req, res) => {
+    db.collection('products')
+      .find({})
+      .toArray((err, products) => {
+        if (err) {
+          console.error('error GET /products', err);
+          res.send(err);
+        } else {
+          res.send(products);
+        }
+      });
+  });
+
+  app.delete('/products/:id', (req, res) => {
+    const id = req.params.id;
+    console.log('id', id);
+    db.collection('products').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(`successful deletion of ${obj.deletedCount} documents`);
+      }
+    });
   });
 
   app.delete('/users/:id', (req, res) => {
@@ -65,6 +101,9 @@ app.listen(port, () => {
 /*
 Mall till att posta users:
 curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
+
+Posta Produkter:
+curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
 
 Mall till att se users lista: 
 curl http://localhost:3000/users
