@@ -95,12 +95,12 @@ MongoClient.connect(url, function (err, database) {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listeningz at http://localhost:${port}`);
 });
 
 /*
 Mall till att posta users:
-curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
+curl -d '{ "firstName": "Janne", "lastName": "Jan", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
 Posta Produkter:
 curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
