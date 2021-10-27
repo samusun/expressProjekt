@@ -43,6 +43,22 @@ MongoClient.connect(url, function (err, database) {
     });
   });
 
+  const datum = new Date();
+
+  app.post('/orders', (req, res) => {
+    const { userId, produktId } = req.body;
+    db.collection('orders').insertOne(
+      { userId, produktId, datum },
+      (err, obj) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(`succeful insert of object ${obj.insertedId}`);
+        }
+      }
+    );
+  });
+
   app.get('/users', (req, res) => {
     db.collection('users')
       .find({})
@@ -103,7 +119,11 @@ Mall till att posta users:
 curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
 Posta Produkter:
-curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
+curl -d '{ "name": "Dator", "cost": "9000", "amount": "4"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
+
+Posta order:
+curl -d '{ "userId": "617921aa87e97a3c1f64507d", "produktId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
+
 
 Mall till att se users lista: 
 curl http://localhost:3000/users
