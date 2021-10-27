@@ -18,6 +18,7 @@ MongoClient.connect(url, function (err, database) {
   const db = database.db(dbName);
   console.log('Connected successfully to server');
 
+  //App post new array of Users
   app.post('/users', (req, res) => {
     const { firstName, lastName, adress } = req.body;
     db.collection('users').insertOne(
@@ -32,6 +33,49 @@ MongoClient.connect(url, function (err, database) {
     );
   });
 
+  //App Get ALL Users
+  app.get('/users', (req, res) => {
+    db.collection('users')
+      .find({})
+      .toArray((err, users) => {
+        if (err) {
+          console.error('error GET /users', err);
+          res.send(err);
+        } else {
+          res.send(users);
+        }
+      });
+  });
+
+  //App Get specifice Users by ID
+  app.get('/users/:id', (req, res) => {
+    const id = req.params.id
+    db.collection('users')
+      .findOne({ "_id": ObjectId(id) }, (err, users_doc) => {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send(users_doc)
+        }
+      })
+  })
+
+  //App Delete Users by ID
+  app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    console.log('id', id);
+    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(`successful deletion of ${obj.deletedCount} documents`);
+      }
+    });
+  });
+
+
+
+  //App post new array of products
   app.post('/products', (req, res) => {
     const { name, cost, amount } = req.body;
     db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
@@ -43,19 +87,7 @@ MongoClient.connect(url, function (err, database) {
     });
   });
 
-  app.get('/users', (req, res) => {
-    db.collection('users')
-      .find({})
-      .toArray((err, students) => {
-        if (err) {
-          console.error('error GET /users', err);
-          res.send(err);
-        } else {
-          res.send(students);
-        }
-      });
-  });
-
+  //App Get ALL products
   app.get('/products', (req, res) => {
     db.collection('products')
       .find({})
@@ -69,6 +101,20 @@ MongoClient.connect(url, function (err, database) {
       });
   });
 
+  //App Get specific products by ID
+  app.get('/products/:id', (req, res) => {
+    const id = req.params.id
+    db.collection('products')
+      .findOne({ "_id": ObjectId(id) }, (err, products_doc) => {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send(products_doc)
+        }
+      })
+  })
+
+  //App Delete Products by ID
   app.delete('/products/:id', (req, res) => {
     const id = req.params.id;
     console.log('id', id);
@@ -81,17 +127,8 @@ MongoClient.connect(url, function (err, database) {
     });
   });
 
-  app.delete('/users/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('id', id);
-    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`);
-      }
-    });
-  });
+
+
 });
 
 app.listen(port, () => {
@@ -99,15 +136,32 @@ app.listen(port, () => {
 });
 
 /*
-Mall till att posta users:
+Kommand kod för GET, PUT, DELETE, etc
+
+~~~~ANVANDARE COMMAND~~~~
+Skicka ny Array till Users:
 curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
-Posta Produkter:
-curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
-
-Mall till att se users lista: 
+Hamta Lista av Users:
 curl http://localhost:3000/users
 
-Mall till att delete:
+Hamta specifika Users med ID:
+curl http://localhost:3000/users/{id}
+
+Tar bort specifika Users med ID:
 curl -X DELETE http://localhost:3000/users/{id}
+
+
+~~~~PRODUKTER COMMAND~~~~
+Skicka ny Array till Produkter:
+curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
+
+Hamta Lista av Products:
+curl http://localhost:3000/products
+
+Hamta specifika Products med ID:
+curl http://localhost:3000/products/{id}
+
+Tar bort specifika Products med ID:
+curl -X DELETE http://localhost:3000/products/{id}
 */
