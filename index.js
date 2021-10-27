@@ -34,6 +34,33 @@ MongoClient.connect(url, function (err, database) {
   });
 
   //App Get ALL Users
+  app.post('/products', (req, res) => {
+    const { name, cost, amount } = req.body;
+    db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(`succeful insert of object ${obj.insertedId}`);
+      }
+    });
+  });
+
+  const datum = new Date();
+
+  app.post('/orders', (req, res) => {
+    const { userId, produktId } = req.body;
+    db.collection('orders').insertOne(
+      { userId, produktId, datum },
+      (err, obj) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(`succeful insert of object ${obj.insertedId}`);
+        }
+      }
+    );
+  });
+
   app.get('/users', (req, res) => {
     db.collection('users')
       .find({})
@@ -49,16 +76,15 @@ MongoClient.connect(url, function (err, database) {
 
   //App Get specifice Users by ID
   app.get('/users/:id', (req, res) => {
-    const id = req.params.id
-    db.collection('users')
-      .findOne({ "_id": ObjectId(id) }, (err, users_doc) => {
-        if (err) {
-          res.send(err)
-        } else {
-          res.send(users_doc)
-        }
-      })
-  })
+    const id = req.params.id;
+    db.collection('users').findOne({ _id: ObjectId(id) }, (err, users_doc) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(users_doc);
+      }
+    });
+  });
 
   //App Delete Users by ID
   app.delete('/users/:id', (req, res) => {
@@ -72,8 +98,6 @@ MongoClient.connect(url, function (err, database) {
       }
     });
   });
-
-
 
   //App post new array of products
   app.post('/products', (req, res) => {
@@ -103,16 +127,18 @@ MongoClient.connect(url, function (err, database) {
 
   //App Get specific products by ID
   app.get('/products/:id', (req, res) => {
-    const id = req.params.id
-    db.collection('products')
-      .findOne({ "_id": ObjectId(id) }, (err, products_doc) => {
+    const id = req.params.id;
+    db.collection('products').findOne(
+      { _id: ObjectId(id) },
+      (err, products_doc) => {
         if (err) {
-          res.send(err)
+          res.send(err);
         } else {
-          res.send(products_doc)
+          res.send(products_doc);
         }
-      })
-  })
+      }
+    );
+  });
 
   //App Delete Products by ID
   app.delete('/products/:id', (req, res) => {
@@ -126,9 +152,6 @@ MongoClient.connect(url, function (err, database) {
       }
     });
   });
-
-
-
 });
 
 app.listen(port, () => {
@@ -164,4 +187,14 @@ curl http://localhost:3000/products/{id}
 
 Tar bort specifika Products med ID:
 curl -X DELETE http://localhost:3000/products/{id}
+
+
+Posta Produkter:
+curl -d '{ "name": "Dator", "cost": "9000", "amount": "4"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
+
+
+ORDER KOMMANDO:
+
+Posta order:
+curl -d '{ "userId": "617921aa87e97a3c1f64507d", "produktId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
 */
