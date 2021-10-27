@@ -132,7 +132,7 @@ MongoClient.connect(url, function (err, database) {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listeningz at http://localhost:${port}`);
 });
 
 /*
