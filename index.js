@@ -1,9 +1,8 @@
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
 
-const dbName = 'dataShop';
-const url = `mongodb://localhost:27017/${dbName}`;
+const usersRoute = require('./routes/users')
+const productsRoute = require('./routes/products')
+const ordersRoute = require('./routes/orders')
 
 const app = express();
 const port = 3000;
@@ -11,148 +10,10 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-MongoClient.connect(url, function (err, database) {
-  if (err) {
-    console.error('Connection error', err);
-  }
-  const db = database.db(dbName);
-  console.log('Connected successfully to server');
+app.use('/users', usersRoute)
+app.use('/products', productsRoute)
+app.use('/orders', ordersRoute)
 
-  //App post new array of Users
-  app.post('/users', (req, res) => {
-    const { firstName, lastName, adress } = req.body;
-    db.collection('users').insertOne(
-      { firstName, lastName, adress },
-      (err, obj) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(`succeful insert of object ${obj.insertedId}`);
-        }
-      }
-    );
-  });
-
-  //App Get ALL Users
-  app.post('/products', (req, res) => {
-    const { name, cost, amount } = req.body;
-    db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`succeful insert of object ${obj.insertedId}`);
-      }
-    });
-  });
-
-  const datum = new Date();
-
-  app.post('/orders', (req, res) => {
-    const { userId, produktId } = req.body;
-    db.collection('orders').insertOne(
-      { userId, produktId, datum },
-      (err, obj) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(`succeful insert of object ${obj.insertedId}`);
-        }
-      }
-    );
-  });
-
-  app.get('/users', (req, res) => {
-    db.collection('users')
-      .find({})
-      .toArray((err, users) => {
-        if (err) {
-          console.error('error GET /users', err);
-          res.send(err);
-        } else {
-          res.send(users);
-        }
-      });
-  });
-
-  //App Get specifice Users by ID
-  app.get('/users/:id', (req, res) => {
-    const id = req.params.id;
-    db.collection('users').findOne({ _id: ObjectId(id) }, (err, users_doc) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(users_doc);
-      }
-    });
-  });
-
-  //App Delete Users by ID
-  app.delete('/users/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('id', id);
-    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`);
-      }
-    });
-  });
-
-  //App post new array of products
-  app.post('/products', (req, res) => {
-    const { name, cost, amount } = req.body;
-    db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`succeful insert of object ${obj.insertedId}`);
-      }
-    });
-  });
-
-  //App Get ALL products
-  app.get('/products', (req, res) => {
-    db.collection('products')
-      .find({})
-      .toArray((err, products) => {
-        if (err) {
-          console.error('error GET /products', err);
-          res.send(err);
-        } else {
-          res.send(products);
-        }
-      });
-  });
-
-  //App Get specific products by ID
-  app.get('/products/:id', (req, res) => {
-    const id = req.params.id;
-    db.collection('products').findOne(
-      { _id: ObjectId(id) },
-      (err, products_doc) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(products_doc);
-        }
-      }
-    );
-  });
-
-  //App Delete Products by ID
-  app.delete('/products/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('id', id);
-    db.collection('products').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`);
-      }
-    });
-  });
-});
 
 app.listen(port, () => {
   console.log(`Example app listeningz at http://localhost:${port}`);
