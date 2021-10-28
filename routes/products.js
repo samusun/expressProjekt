@@ -13,7 +13,7 @@ MongoClient.connect(url, function (err, database) {
     const db = database.db(dbName);
 
 //App Get specific products by ID
-app.get('/products/:id', (req, res) => {
+router.get('/products/:id', (req, res) => {
   const id = req.params.id;
   db.collection('products').findOne(
     { _id: ObjectId(id) },
