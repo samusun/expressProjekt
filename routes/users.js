@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 });
 
 //App Get specifice Users by ID
-router.get('/users/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = req.params.id;
   db.collection('users').findOne({ _id: ObjectId(id) }, (err, users_doc) => {
     if (err) {
