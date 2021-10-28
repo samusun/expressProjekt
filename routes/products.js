@@ -1,20 +1,14 @@
-const express = require('express')
+import express from 'express'
+import { getDb } from '../dbConnection.js';
+import { ObjectId } from 'mongodb';
+
 const router = express.Router()
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
 
-const dbName = 'dataShop';
-const url = `mongodb://localhost:27017/${dbName}`;
-
-MongoClient.connect(url, function (err, database) {
-    if (err) {
-      console.error('Connection error', err);
-    }
-    const db = database.db(dbName);
 
 //App Get specific products by ID
 router.get('/:id', (req, res) => {
   const id = req.params.id;
+  const db = getDb()
   db.collection('products').findOne(
     { _id: ObjectId(id) },
     (err, products_doc) => {
@@ -29,6 +23,7 @@ router.get('/:id', (req, res) => {
 
 //App Get ALL products
 router.get('/', (req, res) => {
+  const db = getDb()
     db.collection('products')
       .find({})
       .toArray((err, products) => {
@@ -43,8 +38,7 @@ router.get('/', (req, res) => {
 
 //App Delete Products by ID
   router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('id', id);
+    const db = getDb()
     db.collection('products').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
       if (err) {
         res.send(err);
@@ -57,6 +51,7 @@ router.get('/', (req, res) => {
   //App Post A Product
 router.post('/', (req, res) => {
     const { name, cost, amount } = req.body;
+    const db = getDb()
     db.collection('products').insertOne({ name, cost, amount }, (err, obj) => {
       if (err) {
         res.send(err);
@@ -65,7 +60,6 @@ router.post('/', (req, res) => {
       }
     });
   });
-})
 
 
-module.exports = router
+export { router }

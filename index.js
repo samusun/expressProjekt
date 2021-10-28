@@ -1,8 +1,11 @@
-const express = require('express');
+import express from 'express'
+import { connectToServer } from './dbConnection.js'
 
-const usersRoute = require('./routes/users')
-const productsRoute = require('./routes/products')
-const ordersRoute = require('./routes/orders')
+import { router as usersRoute } from './routes/users.js'
+import { router as productsRoute } from './routes/products.js'
+import { router as ordersRoute } from './routes/orders.js'
+
+connectToServer()
 
 const app = express();
 const port = 3000;
