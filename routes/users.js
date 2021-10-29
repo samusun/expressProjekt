@@ -1,21 +1,12 @@
-const express = require('express')
+import express from 'express'
+import { getDb } from '../dbConnection.js';
+import { ObjectId } from 'mongodb'
+
 const router = express.Router()
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectId;
-
-const dbName = 'dataShop';
-const url = `mongodb://localhost:27017/${dbName}`;
 
 
-MongoClient.connect(url, function (err, database) {
-  if (err) {
-    console.error('Connection error', err);
-  }
-  const db = database.db(dbName);
-
-
-//App Get ALL Users
 router.get('/', (req, res) => {
+  const db = getDb()
   db.collection('users')
     .find({})
     .toArray((err, students) => {
@@ -28,9 +19,10 @@ router.get('/', (req, res) => {
     });
 });
 
-//App Get specifice Users by ID
+
 router.get('/:id', (req, res) => {
   const id = req.params.id;
+  const db = getDb()
   db.collection('users').findOne({ _id: ObjectId(id) }, (err, users_doc) => {
     if (err) {
       res.send(err);
@@ -41,34 +33,32 @@ router.get('/:id', (req, res) => {
 });
 
 
-//App Post A User 
 router.post('/', (req, res) => {
-    const { firstName, lastName, adress } = req.body;
-    db.collection('users').insertOne(
-      { firstName, lastName, adress },
-      (err, obj) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(`succeful insert of object ${obj.insertedId}`);
-        }
-      }
-    );
-  });
-  
-
-  //App Delete Users by ID
-  router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    console.log('id', id);
-    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+  const { firstName, lastName, adress } = req.body;
+  const db = getDb()
+  db.collection('users').insertOne(
+    { firstName, lastName, adress },
+    (err, obj) => {
       if (err) {
         res.send(err);
       } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`)
+        res.send(`succeful insert of object ${obj.insertedId}`);
       }
-    })
+    }
+  );
+});
+  
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  const db = getDb()
+  db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(`successful deletion of ${obj.deletedCount} documents`)
+    }
   })
 })
 
-  module.exports = router
+export { router }
