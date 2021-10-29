@@ -1,9 +1,8 @@
-import express from "express"
 import { connectToDB } from "./dbConnection.js"
-
-import { router as usersRoute } from "./routes/users.js"
-import { router as productsRoute } from "./routes/products.js"
+import express from "express"
 import { router as ordersRoute } from "./routes/orders.js"
+import { router as productsRoute } from "./routes/products.js"
+import { router as usersRoute } from "./routes/users.js"
 
 connectToDB()
 
@@ -18,7 +17,7 @@ app.use("/products", productsRoute)
 app.use("/orders", ordersRoute)
 
 app.listen(port, () => {
-  console.log(`Example app listeningz at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`)
 })
 
 /*

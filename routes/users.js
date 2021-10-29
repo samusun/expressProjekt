@@ -1,6 +1,6 @@
+import { ObjectId } from "mongodb"
 import express from "express"
 import { getDb } from "../dbConnection.js"
-import { ObjectId } from "mongodb"
 
 const router = express.Router()
 
@@ -31,10 +31,10 @@ router.get("/:id", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-  const { firstName, lastName, adress } = req.body
+  const { firstName, lastName, address } = req.body
   const db = getDb()
   db.collection("users").insertOne(
-    { firstName, lastName, adress },
+    { firstName, lastName, address },
     (err, obj) => {
       if (err) {
         res.send(err)

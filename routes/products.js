@@ -1,6 +1,6 @@
+import { ObjectId } from "mongodb"
 import express from "express"
 import { getDb } from "../dbConnection.js"
-import { ObjectId } from "mongodb"
 
 const router = express.Router()
 
