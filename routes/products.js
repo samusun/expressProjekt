@@ -55,7 +55,7 @@ router.post('/', (req, res) => {
       if (err) {
         res.send(err);
       } else {
-        res.send(`succeful insert of object ${obj.insertedId}`);
+        res.send(`successful insert of Product ${obj.insertedId}`);
       }
   });
 });
