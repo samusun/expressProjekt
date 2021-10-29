@@ -1,12 +1,11 @@
-import express from 'express'
-import { connectToDB } from './dbConnection.js'
+import express from "express"
+import { connectToDB } from "./dbConnection.js"
 
-import { router as usersRoute } from './routes/users.js'
-import { router as productsRoute } from './routes/products.js'
-import { router as ordersRoute } from './routes/orders.js'
+import { router as usersRoute } from "./routes/users.js"
+import { router as productsRoute } from "./routes/products.js"
+import { router as ordersRoute } from "./routes/orders.js"
 
 connectToDB()
-
 
 const app = express()
 const port = process.env.PORT
@@ -14,13 +13,13 @@ const port = process.env.PORT
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.use('/users', usersRoute);
-app.use('/products', productsRoute);
-app.use('/orders', ordersRoute);
+app.use("/users", usersRoute)
+app.use("/products", productsRoute)
+app.use("/orders", ordersRoute)
 
 app.listen(port, () => {
-  console.log(`Example app listeningz at http://localhost:${port}`);
-});
+  console.log(`Example app listeningz at http://localhost:${port}`)
+})
 
 /*
 Kommand kod för GET, POST, DELETE, etc
