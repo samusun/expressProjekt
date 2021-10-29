@@ -1,11 +1,11 @@
 import express from 'express'
-import { connectToServer } from './dbConnection.js'
+import { connectToDB } from './dbConnection.js'
 
 import { router as usersRoute } from './routes/users.js'
 import { router as productsRoute } from './routes/products.js'
 import { router as ordersRoute } from './routes/orders.js'
 
-connectToServer()
+connectToDB()
 
 const app = express();
 const port = 3000;
@@ -23,7 +23,7 @@ app.listen(port, () => {
 });
 
 /*
-Kommand kod för GET, PUT, DELETE, etc
+Kommand kod för GET, POST, DELETE, etc
 
 ~~~~ANVANDARE COMMAND~~~~
 Skicka ny Array till Users:

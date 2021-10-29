@@ -5,7 +5,6 @@ import { ObjectId } from 'mongodb'
 const router = express.Router()
 
 
-//App Get ALL Users
 router.get('/', (req, res) => {
   const db = getDb()
   db.collection('users')
@@ -20,7 +19,7 @@ router.get('/', (req, res) => {
     });
 });
 
-//App Get specifice Users by ID
+
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   const db = getDb()
@@ -34,34 +33,32 @@ router.get('/:id', (req, res) => {
 });
 
 
-//App Post A User 
 router.post('/', (req, res) => {
-    const { firstName, lastName, adress } = req.body;
-    const db = getDb()
-    db.collection('users').insertOne(
-      { firstName, lastName, adress },
-      (err, obj) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(`succeful insert of object ${obj.insertedId}`);
-        }
-      }
-    );
-  });
-  
-
-  //App Delete Users by ID
-  router.delete('/:id', (req, res) => {
-    const id = req.params.id;
-    const db = getDb()
-    db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+  const { firstName, lastName, adress } = req.body;
+  const db = getDb()
+  db.collection('users').insertOne(
+    { firstName, lastName, adress },
+    (err, obj) => {
       if (err) {
         res.send(err);
       } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`)
+        res.send(`succeful insert of object ${obj.insertedId}`);
       }
-    })
-  })
+    }
+  );
+});
+  
 
-  export { router }
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  const db = getDb()
+  db.collection('users').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(`successful deletion of ${obj.deletedCount} documents`)
+    }
+  })
+})
+
+export { router }

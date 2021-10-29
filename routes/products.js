@@ -5,7 +5,6 @@ import { ObjectId } from 'mongodb';
 const router = express.Router()
 
 
-//App Get specific products by ID
 router.get('/:id', (req, res) => {
   const id = req.params.id;
   const db = getDb()
@@ -21,7 +20,7 @@ router.get('/:id', (req, res) => {
   );
 });
 
-//App Get ALL products
+
 router.get('/', (req, res) => {
   const db = getDb()
     db.collection('products')
@@ -33,22 +32,22 @@ router.get('/', (req, res) => {
         } else {
           res.send(products);
         }
-      });
-  });
-
-//App Delete Products by ID
-  router.delete('/:id', (req, res) => {
-    const db = getDb()
-    db.collection('products').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(`successful deletion of ${obj.deletedCount} documents`);
-      }
     });
-  });
+});
 
-  //App Post A Product
+
+router.delete('/:id', (req, res) => {
+  const db = getDb()
+  db.collection('products').deleteOne({ _id: ObjectId(id) }, (err, obj) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(`successful deletion of ${obj.deletedCount} documents`);
+    }
+  });
+});
+
+
 router.post('/', (req, res) => {
     const { name, cost, amount } = req.body;
     const db = getDb()
@@ -58,8 +57,8 @@ router.post('/', (req, res) => {
       } else {
         res.send(`succeful insert of object ${obj.insertedId}`);
       }
-    });
   });
+});
 
 
 export { router }

@@ -5,13 +5,12 @@ const client = new MongoClient(connectionString);
 
 let dbConnection;
 
-function connectToServer() {
+function connectToDB() {
   client.connect(function (err, db) {
     if (err || !db) {
       return console.log(err);
     }
     dbConnection = db.db("dataShop");
-    console.log('connected', dbConnection)
     console.log("Successfully connected to MongoDB.");
   });
 }
@@ -20,4 +19,4 @@ function getDb(){
   return dbConnection;
 }
 
-export { connectToServer, getDb };
+export { connectToDB, getDb };
