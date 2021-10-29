@@ -8,11 +8,11 @@ import { router as ordersRoute } from './routes/orders.js'
 connectToDB()
 
 
-const app = express();
-const port = 3000;
+const app = express()
+const port = process.env.PORT
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.use('/users', usersRoute);
 app.use('/products', productsRoute);
