@@ -23,38 +23,38 @@ app.listen(port, () => {
 });
 
 /*
-Kommand kod för GET, POST, DELETE, etc
+Shortcut Command for GET, POST, DELETE, etc
 
-~~~~ANVANDARE COMMAND~~~~
-Skicka ny Array till Users:
+~~~~USER COMMAND~~~~
+Create new Array User:
 curl -d '{ "firstName": "Hans", "lastName": "Abdullah", "adress": "Sisjön"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
-Hamta Lista av Users:
+Get ALL Users:
 curl http://localhost:3000/users
 
-Hamta specifika Users med ID:
+Get SPECIFICE User by ID:
 curl http://localhost:3000/users/{id}
 
-Tar bort specifika Users med ID:
+DELETE SPECIFICE User by ID:
 curl -X DELETE http://localhost:3000/users/{id}
 
 
-~~~~PRODUKTER COMMAND~~~~
-Skicka ny Array till Produkter:
+~~~~PRODUCT COMMAND~~~~
+Create new Array Product
 curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
 
-Hamta Lista av Products:
+Get ALL Products:
 curl http://localhost:3000/products
 
-Hamta specifika Products med ID:
+Get SPECIFICE Product by ID:
 curl http://localhost:3000/products/{id}
 
-Tar bort specifika Products med ID:
+DELETE SPECIFICE Product by ID:
 curl -X DELETE http://localhost:3000/products/{id}
 
 
-ORDER KOMMANDO:
+~~~~ORDER COMMAND~~~~
 
-Posta order:
-curl -d '{ "userId": "617921aa87e97a3c1f64507d", "produktId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
+Create new Array Order (REQIURE EXIST userId AND productId):
+curl -d '{ "userId": "617921aa87e97a3c1f64507d", "productId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
 */
