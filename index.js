@@ -1,8 +1,8 @@
 const express = require('express');
 
-const usersRoute = require('./routes/users')
-const productsRoute = require('./routes/products')
-const ordersRoute = require('./routes/orders')
+const usersRoute = require('./routes/users');
+const productsRoute = require('./routes/products');
+const ordersRoute = require('./routes/orders');
 
 const app = express();
 const port = 3000;
@@ -10,10 +10,9 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/users', usersRoute)
-app.use('/products', productsRoute)
-app.use('/orders', ordersRoute)
-
+app.use('/users', usersRoute);
+app.use('/products', productsRoute);
+app.use('/orders', ordersRoute);
 
 app.listen(port, () => {
   console.log(`Example app listeningz at http://localhost:${port}`);
@@ -24,7 +23,7 @@ Kommand kod för GET, PUT, DELETE, etc
 
 ~~~~ANVANDARE COMMAND~~~~
 Skicka ny Array till Users:
-curl -d '{ "firstName": "Petter", "lastName": "Hej", "adress": "ithogskolan"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
+curl -d '{ "firstName": "Hans", "lastName": "Abdullah", "adress": "Sisjön"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
 Hamta Lista av Users:
 curl http://localhost:3000/users
@@ -48,10 +47,6 @@ curl http://localhost:3000/products/{id}
 
 Tar bort specifika Products med ID:
 curl -X DELETE http://localhost:3000/products/{id}
-
-
-Posta Produkter:
-curl -d '{ "name": "Dator", "cost": "9000", "amount": "4"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
 
 
 ORDER KOMMANDO:
