@@ -1,2 +1,2 @@
 # ExpressProjekt
-Vi bygger en enkel databas i MongoDb, och skickar förfrågningar i Curl.
+We build a simple database with MongoDb and send request in Curl.

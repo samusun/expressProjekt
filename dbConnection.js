@@ -1,22 +1,22 @@
 import { MongoClient } from "mongodb"
 
-const connectionString = 'mongodb://localhost:27017/dataShop';
-const client = new MongoClient(connectionString);
+const connectionString = "mongodb://localhost:27017/dataShop"
+const client = new MongoClient(connectionString)
 
-let dbConnection;
+let dbConnection
 
 function connectToDB() {
   client.connect(function (err, db) {
     if (err || !db) {
-      return console.log(err);
+      return console.log(err)
     }
-    dbConnection = db.db("dataShop");
-    console.log("Successfully connected to MongoDB.");
-  });
+    dbConnection = db.db("dataShop")
+    console.log("Successfully connected to MongoDB.")
+  })
 }
 
-function getDb(){
-  return dbConnection;
+function getDb() {
+  return dbConnection
 }
 
-export { connectToDB, getDb };
+export { connectToDB, getDb }

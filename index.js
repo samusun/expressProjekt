@@ -1,59 +1,79 @@
+<<<<<<< HEAD
 import express from 'express';
 import { connectToDB } from './dbConnection.js';
 
 import { router as usersRoute } from './routes/users.js';
 import { router as productsRoute } from './routes/products.js';
 import { router as ordersRoute } from './routes/orders.js';
+=======
+import { connectToDB } from "./dbConnection.js"
+import express from "express"
+import { router as ordersRoute } from "./routes/orders.js"
+import { router as productsRoute } from "./routes/products.js"
+import { router as usersRoute } from "./routes/users.js"
+>>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
 
 connectToDB();
 
+<<<<<<< HEAD
 const app = express();
 const port = process.env.PORT;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+=======
+const app = express()
+const port = process.env.PORT
 
-app.use('/users', usersRoute);
-app.use('/products', productsRoute);
-app.use('/orders', ordersRoute);
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+>>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
+
+app.use("/users", usersRoute)
+app.use("/products", productsRoute)
+app.use("/orders", ordersRoute)
 
 app.listen(port, () => {
-  console.log(`Example app listeningz at http://localhost:${port}`);
-});
+  console.log(`Example app listening at http://localhost:${port}`)
+})
 
 /*
-Kommand kod för GET, POST, DELETE, etc
+Shortcut Command for GET, POST, DELETE, etc
 
-~~~~ANVANDARE COMMAND~~~~
-Skicka ny Array till Users:
+~~~~USER COMMAND~~~~
+Create new Array User:
 curl -d '{ "firstName": "Hans", "lastName": "Abdullah", "adress": "Sisjön"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
-Hamta Lista av Users:
+Get ALL Users:
 curl http://localhost:3000/users
 
-Hamta specifika Users med ID:
+Get SPECIFICE User by ID:
 curl http://localhost:3000/users/{id}
 
-Tar bort specifika Users med ID:
+DELETE SPECIFICE User by ID:
 curl -X DELETE http://localhost:3000/users/{id}
 
 
-~~~~PRODUKTER COMMAND~~~~
-Skicka ny Array till Produkter:
+~~~~PRODUCT COMMAND~~~~
+Create new Array Product
 curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
 
-Hamta Lista av Products:
+Get ALL Products:
 curl http://localhost:3000/products
 
-Hamta specifika Products med ID:
+Get SPECIFICE Product by ID:
 curl http://localhost:3000/products/{id}
 
+<<<<<<< HEAD
 Tar bort specifika Products med ID::
+=======
+DELETE SPECIFICE Product by ID:
+>>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
 curl -X DELETE http://localhost:3000/products/{id}
 
 
-ORDER KOMMANDO:
+~~~~ORDER COMMAND~~~~
 
-Posta order:
-curl -d '{ "userId": "617921aa87e97a3c1f64507d", "produktId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
+Create new Array Order (REQIURE EXIST userId AND productId):
+curl -d '{ "userId": "617921aa87e97a3c1f64507d", "productId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
 */
