@@ -1,18 +1,17 @@
-import express from 'express'
-import { connectToDB } from './dbConnection.js'
+import express from 'express';
+import { connectToDB } from './dbConnection.js';
 
-import { router as usersRoute } from './routes/users.js'
-import { router as productsRoute } from './routes/products.js'
-import { router as ordersRoute } from './routes/orders.js'
+import { router as usersRoute } from './routes/users.js';
+import { router as productsRoute } from './routes/products.js';
+import { router as ordersRoute } from './routes/orders.js';
 
-connectToDB()
+connectToDB();
 
+const app = express();
+const port = process.env.PORT;
 
-const app = express()
-const port = process.env.PORT
-
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use('/users', usersRoute);
 app.use('/products', productsRoute);
@@ -49,7 +48,7 @@ curl http://localhost:3000/products
 Hamta specifika Products med ID:
 curl http://localhost:3000/products/{id}
 
-Tar bort specifika Products med ID:
+Tar bort specifika Products med ID::
 curl -X DELETE http://localhost:3000/products/{id}
 
 
