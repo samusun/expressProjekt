@@ -1,6 +1,9 @@
 // import { ObjectId } from "mongodb"
 // import express from "express"
-// import { getDb } from "../dbConnection.js"
+// // import { getDb } from "../dbConnection.js"
+// import { MongoCRUD } from "../drivers/mongodriver"
+
+// const mongoCRUD = new MongoCRUD
 
 // const router = express.Router()
 
@@ -8,14 +11,11 @@
 
 // router.get("/:id", (req, res) => {
 //   const id = req.params.id
-//   const db = getDb()
-//   db.collection("orders").findOne({ _id: ObjectId(id) }, (err, orders_doc) => {
-//     if (err) {
+//   try { res.send(mongoCRUD.getOne(id))
+//    }
+//   catch (e) {
 //       res.status(501).send(err)
-//     } else {
-//       res.send(orders_doc)
-//     }
-//   })
+//   }
 // })
 
 // router.get("/", (req, res) => {

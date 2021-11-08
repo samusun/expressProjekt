@@ -1,22 +1,19 @@
-// import { ObjectId } from "mongodb"
-// import express from "express"
-// import { getDb } from "../dbConnection.js"
+import { ObjectId } from "mongodb"
+import express from "express"
+import { getDB } from "../drivers/webdriver.js"
 
-// const router = express.Router()
+const router = express.Router()
 
-// router.get("/", (req, res) => {
-//   const db = getDb()
-//   db.collection("users")
-//     .find({})
-//     .toArray((err, students) => {
-//       if (err) {
-//         console.error("error GET /users", err)
-//         res.send(err)
-//       } else {
-//         res.send(students)
-//       }
-//     })
-// })
+router.get("/", async (req, res) => {
+  const db = await getDB()
+  try {
+    const users = await db.users.getAll()
+    res.send(users)
+  } catch (err) {
+    console.error("Error GET /users", err)
+    res.status(501).send(err)
+  }
+})
 
 // router.get("/:id", (req, res) => {
 //   const id = req.params.id
@@ -57,4 +54,4 @@
 //   })
 // })
 
-// export { router }
+export { router }
