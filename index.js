@@ -1,24 +1,49 @@
-import { connectToDB } from "./dbConnection.js"
-import express from "express"
-import { router as ordersRoute } from "./routes/orders.js"
-import { router as productsRoute } from "./routes/products.js"
-import { router as usersRoute } from "./routes/users.js"
+import expressDriver from "./drivers/webdriver.js"
+import { mockdbDriver } from "./drivers/mockdbdriver.js"
+import { mongoDriver } from "./drivers/mongodriver.js"
 
-connectToDB()
+const PORT = process.env.PORT || 3000 // 3000 or 80
+const DBTYPE = process.env.DB || "mock" // mock or mongo
+const DBCONN =
+  "mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/myFirstDatabase?retryWrites=true&w=majority " ||
+  "<default>"
+const DBNAME = process.env.DBNAME || "<default>"
 
-const app = express()
-const port = process.env.PORT
+const selectDb = async (dbType, dbConn, dbName) => {
+  switch (dbType) {
+    case "mock":
+      return mockdbDriver()
+    case "mongo":
+    default:
+      return await mongoDriver(dbConn, dbName)
+  }
+}
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+const main = async (port, dbType, dbConn, dbName) => {
+  try {
+    const db = await selectDb(dbType, dbConn, dbName)
+    const app = await expressDriver(db)
+    app.listen(port, () => {
+      console.log(
+        `dataShop app (${dbType}) listening at http://localhost:${port}`
+      )
+    })
+  } catch (err) {
+    console.error("Error running app", err)
+  }
+}
 
-app.use("/users", usersRoute)
-app.use("/products", productsRoute)
-app.use("/orders", ordersRoute)
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+main(PORT, DBTYPE, DBCONN, DBNAME)
+console.log(
+  "PORT: ",
+  PORT,
+  "DBTYPE: ",
+  DBTYPE,
+  "CONN: ",
+  DBCONN,
+  "DBNAME: ",
+  DBNAME
+)
 
 /*
 Shortcut Command for GET, POST, DELETE, etc
@@ -47,11 +72,7 @@ curl http://localhost:3000/products
 Get SPECIFICE Product by ID:
 curl http://localhost:3000/products/{id}
 
-<<<<<<< HEAD
-Tar bort specifika Products med ID::
-=======
 DELETE SPECIFICE Product by ID:
->>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
 curl -X DELETE http://localhost:3000/products/{id}
 
 

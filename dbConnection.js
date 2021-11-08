@@ -1,22 +1,36 @@
-import { MongoClient } from "mongodb"
+// import { mongoDriver } from './drivers/mongodriver.js';
+// import { mockdbDriver } from './drivers/mockdbdriver.js';
+// import webDriver from './drivers/webdriver.js';
 
-const connectionString = "mongodb://localhost:27017/dataShop"
-const client = new MongoClient(connectionString)
+// const DBNAME = 'dataShop';
+// const DBCONN = 'mongodb://localhost:27017/dataShop';
+// const PORT = process.env.PORT || 3000; // 3000 or 80
+// const DBTYPE = process.env.DB || 'mock'; // mock or mongo
 
-let dbConnection
+// const selectDb = async (dbType, dbConn, dbName) => {
+//   switch (dbType) {
+//     case 'mock':
+//       return mockdbDriver();
+//     case 'mongo':
+//     default:
+//       return await mongoDriver(dbConn, dbName);
+//   }
+// };
 
-function connectToDB() {
-  client.connect(function (err, db) {
-    if (err || !db) {
-      return console.log(err)
-    }
-    dbConnection = db.db("dataShop")
-    console.log("Successfully connected to MongoDB.")
-  })
-}
+// const main = async (port, dbType, dbConn, dbName) => {
+//   try {
+//     const db = await selectDb(dbType, dbConn, dbName);
+//     const app = await webDriver(db);
+//     app.listen(port, () => {
+//       console.log(
+//         `USERS app (${dbType}) listening at http://localhost:${port}`
+//       );
+//     });
+//   } catch (err) {
+//     console.error('Error running app', err);
+//   }
+// };
 
-function getDb() {
-  return dbConnection
-}
+// main(PORT, DBTYPE, DBCONN, DBNAME);
 
-export { connectToDB, getDb }
+// // const connectionString = 'mongodb://localhost:27017/dataShop';
