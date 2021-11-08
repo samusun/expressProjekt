@@ -4,25 +4,43 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
-    "start:dev": "cross-env PORT=3000 nodemon index.js",
-    "start:prod": "cross-env PORT=80 node index.js", 
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "cross-env PORT=3000 DB=mock nodemon index.js",
+    "start:prod": "cross-env DB=mongo PORT=80 DBNAME=dataShop node index.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/samusun/expressProjekt.git"
   },
-  "author": "Fredrik Johansson",
+  "author": "Samuel Sundberg",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/samusun/expressProjekt/issues"
   },
   "homepage": "https://github.com/samusun/expressProjekt#readme",
   "dependencies": {
+    "@babel/runtime": "^7.15.4",
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "mongodb": "^4.1.3",
     "nodemon": "^2.0.14"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/runtime": "^7.16.0",
+    "babel-jest": "^27.3.1",
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
   }
 }
