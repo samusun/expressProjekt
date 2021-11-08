@@ -1,33 +1,16 @@
-<<<<<<< HEAD
-import express from 'express';
-import { connectToDB } from './dbConnection.js';
-
-import { router as usersRoute } from './routes/users.js';
-import { router as productsRoute } from './routes/products.js';
-import { router as ordersRoute } from './routes/orders.js';
-=======
 import { connectToDB } from "./dbConnection.js"
 import express from "express"
 import { router as ordersRoute } from "./routes/orders.js"
 import { router as productsRoute } from "./routes/products.js"
 import { router as usersRoute } from "./routes/users.js"
->>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
 
-connectToDB();
+connectToDB()
 
-<<<<<<< HEAD
-const app = express();
-const port = process.env.PORT;
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-=======
 const app = express()
 const port = process.env.PORT
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
->>>>>>> 0ed44847915bb46d0130ad8f62d3f07148da9064
 
 app.use("/users", usersRoute)
 app.use("/products", productsRoute)
