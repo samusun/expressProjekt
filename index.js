@@ -1,49 +1,50 @@
-import { mongoDriver } from './drivers/mongodriver.js';
-import { mockdbDriver } from './drivers/mockdbdriver.js';
-import expressDriver from './drivers/webdriver.js';
+import dotenv from "dotenv"
+import { expressDriver } from "./drivers/webdriver.js"
+import { mockdbDriver } from "./drivers/mockdbdriver.js"
+import { mongoDriver } from "./drivers/mongodriver.js"
 
-const PORT = process.env.PORT || 3000; // 3000 or 80
-const DBTYPE = process.env.DB || 'mock'; // mock or mongo
-const DBCONN =
-  'mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/myFirstDatabase?retryWrites=true&w=majority ' ||
-  '<default>';
-const DBNAME = process.env.DBNAME || '<default>';
+dotenv.config()
+
+const PORT = process.env.PORT || 3000 // 3000 or 80
+const DBTYPE = process.env.DB || "mock" // mock or mongo
+const DBCONN = process.env.CONNECTION_STRING || "<default>"
+const DBNAME = process.env.DBNAME || "<default>"
 
 const selectDb = async (dbType, dbConn, dbName) => {
   switch (dbType) {
-    case 'mock':
-      return mockdbDriver();
-    case 'mongo':
+    case "mock":
+      return mockdbDriver()
+    case "mongo":
     default:
-      return await mongoDriver(dbConn, dbName);
+      return await mongoDriver(dbConn, dbName)
   }
-};
+}
 
 const main = async (port, dbType, dbConn, dbName) => {
   try {
-    const db = await selectDb(dbType, dbConn, dbName);
-    const app = await expressDriver(db);
+    const db = await selectDb(dbType, dbConn, dbName)
+    const app = await expressDriver(db)
     app.listen(port, () => {
       console.log(
         `dataShop app (${dbType}) listening at http://localhost:${port}`
-      );
-    });
+      )
+    })
   } catch (err) {
-    console.error('Error running app', err);
+    console.error("Error running app", err)
   }
-};
+}
 
-main(PORT, DBTYPE, DBCONN, DBNAME);
+main(PORT, DBTYPE, DBCONN, DBNAME)
 console.log(
-  'PORT: ',
+  "PORT: ",
   PORT,
-  'DBTYPE: ',
+  "DBTYPE: ",
   DBTYPE,
-  'CONN: ',
+  "CONN: ",
   DBCONN,
-  'DBNAME: ',
+  "DBNAME: ",
   DBNAME
-);
+)
 
 /*
 Shortcut Command for GET, POST, DELETE, etc
