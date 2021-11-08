@@ -1,61 +1,61 @@
-// import { ObjectId } from "mongodb"
-// import express from "express"
-// // import { getDb } from "../dbConnection.js"
-// import { MongoCRUD } from "../drivers/mongodriver"
+import { ObjectId } from "mongodb"
+import express from "express"
+import { getDB } from "../drivers/webdriver.js"
 
-// const mongoCRUD = new MongoCRUD
 
-// const router = express.Router()
+const router = express.Router()
 
-// const currentDate = new Date()
+const currentDate = new Date()
 
-// router.get("/:id", (req, res) => {
-//   const id = req.params.id
-//   try { res.send(mongoCRUD.getOne(id))
-//    }
-//   catch (e) {
-//       res.status(501).send(err)
-//   }
-// })
+router.get("/:id", async (req, res) => {
+  const id = req.params.id
+  const db = await getDB();
+  try { 
+    const order = await db.orders.getOne({ _id: ObjectId(id) });
+    res.send(order);
+   }
+  catch (err) {
+    console.error('Error getting order; ',err);
+    res.status(501).send(err)
+  }
+})
 
-// router.get("/", (req, res) => {
-//   const db = getDb()
-//   db.collection("orders")
-//     .find({})
-//     .toArray((err, orders) => {
-//       if (err) {
-//         res.status(501).send(err)
-//       } else {
-//         res.send(orders)
-//       }
-//     })
-// })
+router.get('/', async (req, res) => {
+  const db = await getDB();
+  try {
+    const orders = await db.orders.getAll();
+    res.send(orders);
+  } catch (err) {
+    console.error('Error GET /orders', err);
+    res.status(501).send(err);
+  }
+});
 
-// router.post("/", (req, res) => {
-//   const { userId, productId } = req.body
-//   const db = getDb()
-//   db.collection("orders").insertOne(
-//     { userId, productId, currentDate },
-//     (err, obj) => {
-//       if (err) {
-//         res.status(501).send(err)
-//       } else {
-//         res.status(201).send(`succeful insert of object ${obj.insertedId}`)
-//       }
-//     }
-//   )
-// })
 
-// router.delete("/:id", (req, res) => {
-//   const id = req.params.id
-//   const db = getDb()
-//   db.collection("orders").deleteOne({ _id: ObjectId(id) }, (err, obj) => {
-//     if (err) {
-//       res.status(501).send(err)
-//     } else {
-//       res.send(`successful deletion of ${obj.deletedCount} documents`)
-//     }
-//   })
-// })
+router.post("/", async (req, res) => {
+  const { userId, productId } = req.body
+  const db = await getDB()
+  try {
+      const response = await db.orders.createOne({ userId, productId });
+      console.log(`succeful insert of Order ${response}`);
+      res.status(201).send(response.insertedId);
+    } catch (err) {
+      console.error(err);
+      res.status(501).send(err);
+    }
+})
 
-// export { router }
+router.delete("/:id", async (req, res) => {
+  const id = req.params.id
+  const db = await getDB()
+  try {
+    const response = await db.orders.deleteOne({ _id: ObjectId(id) });
+    console.log('deleted one');
+    res.send(response);
+  } catch (err) {
+    console.error(err);
+    res.status(501).send(err);
+  }
+})
+
+export { router }
