@@ -1,52 +1,61 @@
+import dotenv from 'dotenv';
+import { expressDriver } from './drivers/webdriver.js';
+import { mockdbDriver } from './drivers/mockdbdriver.js';
+import { mongoDriver } from './drivers/mongodriver.js';
 
-import dotenv from "dotenv"
-import { expressDriver } from "./drivers/webdriver.js"
-import { mockdbDriver } from "./drivers/mockdbdriver.js"
-import { mongoDriver } from "./drivers/mongodriver.js"
+dotenv.config();
 
-dotenv.config()
+const PORT = process.env.PORT || 3000; // 3000 or 80
+const DBTYPE = process.env.DB || 'mock'; // mock or mongo
+const DBCONN = process.env.CONNECTION_STRING || '<default>';
 
-const PORT = process.env.PORT || 3000 // 3000 or 80
-const DBTYPE = process.env.DB || "mock" // mock or mongo
-const DBCONN = process.env.CONNECTION_STRING || "<default>"
-
-const DBNAME = process.env.DBNAME || "<default>"
+const DBNAME = process.env.DBNAME || '<default>';
 
 const selectDb = async (dbType, dbConn, dbName) => {
   switch (dbType) {
-    case "mock":
-      return mockdbDriver()
-    case "mongo":
+    case 'mock':
+      return mockdbDriver();
+    case 'mongo':
     default:
-      return await mongoDriver(dbConn, dbName)
+      return await mongoDriver(dbConn, dbName);
   }
-}
+};
 
 const main = async (port, dbType, dbConn, dbName) => {
   try {
-    const db = await selectDb(dbType, dbConn, dbName)
-    const app = await expressDriver(db)
+    const db = await selectDb(dbType, dbConn, dbName);
+    const app = await expressDriver(db);
     app.listen(port, () => {
       console.log(
         `dataShop app (${dbType}) listening at http://localhost:${port}`
-      )
-    })
+      );
+    });
   } catch (err) {
-    console.error("Error running app", err)
+    console.error('Error running app', err);
   }
-}
+};
 
-main(PORT, DBTYPE, DBCONN, DBNAME)
-console.log(
-  "PORT: ",
-  PORT,
-  "DBTYPE: ",
-  DBTYPE,
-  "CONN: ",
-  DBCONN,
-  "DBNAME: ",
-  DBNAME
-)
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+app.listen(PORT, () => {
+  console.log(`Example app listening at http://localhost:${PORT}`);
+});
+// main(PORT, DBTYPE, DBCONN, DBNAME)
+// console.log(
+//   "PORT: ",
+//   PORT,
+//   "DBTYPE: ",
+//   DBTYPE,
+//   "CONN: ",
+//   DBCONN,
+//   "DBNAME: ",
+//   DBNAME
+// )
 
 /*
 Shortcut Command for GET, POST, DELETE, etc
