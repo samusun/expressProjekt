@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start:dev": "cross-env PORT=3000 DB=mock nodemon index.js",
-    "start:prod": "cross-env DB=mongo PORT=80 DBNAME=dataShop node index.js",
+    "start:prod": "cross-env PORT=80 node index.js",
     "test": "jest"
   },
   "repository": {
