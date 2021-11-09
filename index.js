@@ -5,9 +5,11 @@ import { mongoDriver } from './drivers/mongodriver.js';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000; // 3000 or 80
-const DBTYPE = process.env.DB || 'mock'; // mock or mongo
-const DBCONN = process.env.CONNECTION_STRING || '<default>';
+const PORT = 80 || 3000; // 3000 or 80
+const DBTYPE = 'mongo' || 'mock'; // mock or mongo
+const DBCONN =
+  'mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/Cluster0?retryWrites=true&w=majority' ||
+  '<default>';
 
 const DBNAME = process.env.DBNAME || '<default>';
 
