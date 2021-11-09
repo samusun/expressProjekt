@@ -35,27 +35,17 @@ const main = async (port, dbType, dbConn, dbName) => {
   }
 };
 
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
-});
-// main(PORT, DBTYPE, DBCONN, DBNAME)
-// console.log(
-//   "PORT: ",
-//   PORT,
-//   "DBTYPE: ",
-//   DBTYPE,
-//   "CONN: ",
-//   DBCONN,
-//   "DBNAME: ",
-//   DBNAME
-// )
+main(PORT, DBTYPE, DBCONN, DBNAME);
+console.log(
+  'PORT: ',
+  PORT,
+  'DBTYPE: ',
+  DBTYPE,
+  'CONN: ',
+  DBCONN,
+  'DBNAME: ',
+  DBNAME
+);
 
 /*
 Shortcut Command for GET, POST, DELETE, etc
