@@ -5,7 +5,7 @@ import { mongoDriver } from './drivers/mongodriver.js';
 
 dotenv.config();
 
-const PORT = 80 || 3000; // 3000 or 80
+const PORT = process.env.PORT || 3000; // 3000 or 80
 const DBTYPE = 'mongo' || 'moock'; // mockormongo
 const DBCONN =
   'mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/Cluster0?retryWrites=true&w=majority' ||
@@ -27,7 +27,8 @@ const main = async (port, dbType, dbConn, dbName) => {
   try {
     const db = await selectDb(dbType, dbConn, dbName);
     const app = expressDriver(db);
-    app.listen(port, () => {
+    app.listen(port, (err) => {
+      if (err) throw err;
       console.log(
         `dataShop app (${dbType}) listening at http://localhost:${port}`
       );
