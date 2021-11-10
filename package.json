@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start:dev": "cross-env PORT=3000 DB=mock nodemon index.js",
-    "start": "set PORT=80 && index.js",
+    "start": "index.js",
     "test": "jest"
   },
   "repository": {
