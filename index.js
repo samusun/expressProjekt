@@ -11,7 +11,7 @@ const DBCONN =
   'mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/Cluster0?retryWrites=true&w=majority' ||
   '<default>';
 
-const DBNAME = process.env.DBNAME || '<default>';
+const DBNAME = 'dataShop' || '<default>';
 
 const selectDb = async (dbType, dbConn, dbName) => {
   switch (dbType) {
