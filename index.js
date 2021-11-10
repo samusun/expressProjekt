@@ -6,7 +6,7 @@ import { mongoDriver } from './drivers/mongodriver.js';
 dotenv.config();
 
 const PORT = process.env.PORT || 3000; // 3000 or 80
-const DBTYPE = process.env.DB || 'mock'; // mockormongo
+const DBTYPE = process.env.DB || 'moock'; // mockormongo
 const DBCONN =
   'mongodb+srv://GRUPPARBETE:GRUPPARBETE@cluster0.nao6t.mongodb.net/Cluster0?retryWrites=true&w=majority' ||
   '<default>';
