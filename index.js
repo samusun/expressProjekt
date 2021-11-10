@@ -1,9 +1,6 @@
-import dotenv from 'dotenv';
 import { expressDriver } from './drivers/webdriver.js';
 import { mockdbDriver } from './drivers/mockdbdriver.js';
 import { mongoDriver } from './drivers/mongodriver.js';
-
-dotenv.config();
 
 const PORT = process.env.PORT || 3000; // 3000 or 80
 const DBTYPE = process.env.DBTYPE || 'moock'; // mockormongo
