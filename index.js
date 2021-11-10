@@ -8,8 +8,7 @@ dotenv.config();
 const PORT = process.env.PORT || 3000; // 3000 or 80
 const DBTYPE = process.env.DBTYPE || 'moock'; // mockormongo
 const DBCONN = process.env.CONNECTION_STRING || '<default>';
-
-const DBNAME = 'dataShop' || '<default>';
+const DBNAME = process.env.DBNAME || '<default>';
 
 const selectDb = async (dbType, dbConn, dbName) => {
   switch (dbType) {
