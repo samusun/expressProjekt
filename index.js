@@ -26,7 +26,7 @@ const selectDb = async (dbType, dbConn, dbName) => {
 const main = async (port, dbType, dbConn, dbName) => {
   try {
     const db = await selectDb(dbType, dbConn, dbName);
-    const app = await expressDriver(db);
+    const app = expressDriver(db);
     app.listen(port, () => {
       console.log(
         `dataShop app (${dbType}) listening at http://localhost:${port}`
