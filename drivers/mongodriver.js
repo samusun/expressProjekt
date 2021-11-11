@@ -8,7 +8,7 @@ class MongoCRUD {
 
   async getAll() {
     try {
-      return await this.collection.find({ userId, productId }).toArray()
+      return await this.collection.find().toArray()
     } catch (err) {
       throw new Error(`${this.collection}.getAll`, err)
     }
@@ -25,13 +25,15 @@ class MongoCRUD {
   async getMany(userId, productId) {
     if (productId) {
       try {
-        return await this.collection.find({ userId, productId }).toArray()
+        return await this.collection
+          .find({ userId: userId._id, productId: productId._id })
+          .toArray()
       } catch (err) {
         throw new Error(`${this.collection}.getMany`, err)
       }
     } else {
       try {
-        return await this.collection.find({ userId }).toArray()
+        return await this.collection.find({ userId: userId._id }).toArray()
       } catch (err) {
         throw new Error(`${this.collection}.getMany`, err)
       }

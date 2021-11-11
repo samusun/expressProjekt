@@ -50,8 +50,8 @@ router.post("/", async (req, res) => {
   const db = await getDB()
   try {
     const response = await db.orders.createOne({
-      userId,
-      productId,
+      userId: ObjectId(userId),
+      productId: ObjectId(productId),
       date: currentDate,
     })
     console.log(`succeful insert of Order ${response}`)

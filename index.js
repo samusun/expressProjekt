@@ -1,83 +1,48 @@
-import { expressDriver } from './drivers/webdriver.js';
-import { mockdbDriver } from './drivers/mockdbdriver.js';
-import { mongoDriver } from './drivers/mongodriver.js';
+import dotenv from "dotenv"
+import { expressDriver } from "./drivers/webdriver.js"
+import { mockdbDriver } from "./drivers/mockdbdriver.js"
+import { mongoDriver } from "./drivers/mongodriver.js"
+
+dotenv.config()
 
 const PORT = process.env.PORT || 3000 // 3000 or 80
 const DBTYPE = process.env.DBTYPE || "mock" // mock or mongo
 const DBCONN = process.env.CONNECTION_STRING || "<default>"
 const DBNAME = process.env.DBNAME || "<default>"
 
-
 const selectDb = async (dbType, dbConn, dbName) => {
   switch (dbType) {
-    case 'mock':
-      return mockdbDriver();
-    case 'mongo':
+    case "mock":
+      return mockdbDriver()
+    case "mongo":
     default:
-      return await mongoDriver(dbConn, dbName);
+      return await mongoDriver(dbConn, dbName)
   }
-};
+}
 
 const main = async (port, dbType, dbConn, dbName) => {
   try {
-    const db = await selectDb(dbType, dbConn, dbName);
-    const app = expressDriver(db);
+    const db = await selectDb(dbType, dbConn, dbName)
+    const app = expressDriver(db)
     app.listen(port, (err) => {
-      if (err) throw err;
+      if (err) throw err
       console.log(
         `dataShop app (${dbType}) listening at http://localhost:${port}`
-      );
-    });
+      )
+    })
   } catch (err) {
-    console.error('Error running app', err);
+    console.error("Error running app", err)
   }
-};
+}
 
-main(PORT, DBTYPE, DBCONN, DBNAME);
+main(PORT, DBTYPE, DBCONN, DBNAME)
 console.log(
-  'PORT: ',
+  "PORT: ",
   PORT,
-  'DBTYPE: ',
+  "DBTYPE: ",
   DBTYPE,
-  'CONN: ',
+  "CONN: ",
   DBCONN,
-  'DBNAME: ',
+  "DBNAME: ",
   DBNAME
-);
-
-/*
-Shortcut Command for GET, POST, DELETE, etc
-
-~~~~USER COMMAND~~~~
-Create new Array User:
-curl -d '{ "firstName": "Hans", "lastName": "Abdullah", "adress": "Sisjön"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
-
-Get ALL Users:
-curl http://localhost:3000/users
-
-Get SPECIFICE User by ID:
-curl http://localhost:3000/users/{id}
-
-DELETE SPECIFICE User by ID:
-curl -X DELETE http://localhost:3000/users/{id}
-
-
-~~~~PRODUCT COMMAND~~~~
-Create new Array Product
-curl -d '{ "name": "Stege", "cost": "100", "amount": "1"}' -H "Content-Type: application/json" -X POST http://localhost:3000/products
-
-Get ALL Products:
-curl http://localhost:3000/products
-
-Get SPECIFICE Product by ID:
-curl http://localhost:3000/products/{id}
-
-DELETE SPECIFICE Product by ID:
-curl -X DELETE http://localhost:3000/products/{id}
-
-
-~~~~ORDER COMMAND~~~~
-
-Create new Array Order (REQIURE EXIST userId AND productId):
-curl -d '{ "userId": "617921aa87e97a3c1f64507d", "productId": "61793912ec33d736a0e4789d" }' -H "Content-Type: application/json" -X POST http://localhost:3000/orders
-*/
+)
