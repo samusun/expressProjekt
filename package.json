@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "uglifyjs index.js --compress --output index.min.js",
+    "start:prod": "cross-env PORT=80 DB=mongo nodemon index.js",
     "start:dev": "cross-env PORT=3000 DB=mock nodemon index.js",
     "start": "node index.js",
     "test": "jest"

@@ -6,11 +6,27 @@ const router = express.Router()
 
 const currentDate = new Date()
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id
+router.get("/:userId", async (req, res) => {
+  const userId = req.params.userId
   const db = await getDB()
   try {
-    const order = await db.orders.getOne({ _id: ObjectId(id) })
+    const order = await db.orders.getMany({ _id: ObjectId(userId) })
+    res.send(order)
+  } catch (err) {
+    console.error("Error getting order; ", err)
+    res.status(501).send(err)
+  }
+})
+
+router.get("/:userId/:productId", async (req, res) => {
+  const userId = req.params.userId
+  const productId = req.params.productId
+  const db = await getDB()
+  try {
+    const order = await db.orders.getMany(
+      { _id: ObjectId(userId) },
+      { _id: ObjectId(productId) }
+    )
     res.send(order)
   } catch (err) {
     console.error("Error getting order; ", err)
