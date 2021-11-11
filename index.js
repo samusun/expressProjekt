@@ -3,7 +3,7 @@ import { mockdbDriver } from "./drivers/mockdbdriver.js"
 import { mongoDriver } from "./drivers/mongodriver.js"
 
 const PORT = process.env.PORT || 3000 // 3000 or 80
-const DBTYPE = process.env.DBTYPE || "moock" // mock or mongo
+const DBTYPE = process.env.DBTYPE || "mock" // mock or mongo
 const DBCONN = process.env.CONNECTION_STRING || "<default>"
 const DBNAME = process.env.DBNAME || "<default>"
 

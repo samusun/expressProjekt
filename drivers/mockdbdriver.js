@@ -14,8 +14,8 @@ const productsData = [
 ]
 
 const ordersData = [
-  { productId: 222, userId: 222, date: new Date() },
-  { productId: 555, userId: 444, date: new Date() },
+  { productId: new ObjectId(), userId: new ObjectId(), date: new Date() },
+  { productId: new ObjectId(), userId: new ObjectId(), date: new Date() },
 ]
 
 class MockCRUD {
@@ -30,6 +30,20 @@ class MockCRUD {
 
   async getOne(id) {
     return this.data.find((item) => item._id.toString() === id._id.toString())
+  }
+
+  async getMany(userId, productId) {
+    if (productId) {
+      return this.data.filter(
+        (item) =>
+          item.userId.toString() === userId._id.toString() &&
+          item.productId.toString() === productId._id.toString()
+      )
+    } else {
+      return this.data.filter((item) => {
+        return item.userId.toString() === userId._id.toString()
+      })
+    }
   }
 
   async createOne(data) {
