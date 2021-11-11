@@ -32,8 +32,8 @@ router.post("/", async (req, res) => {
   const db = await getDB()
   try {
     const response = await db.users.createOne({ firstName, lastName, address })
-    console.log(`succeful insert of object ${response}`)
-    res.status(201).send(response.insertedId)
+    console.log(`succeful insert of User`)
+    res.status(201).send(`succeful insert of User`)
   } catch (err) {
     console.error(err)
     res.status(501).send(err)
