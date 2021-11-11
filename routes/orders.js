@@ -54,8 +54,8 @@ router.post("/", async (req, res) => {
       productId: ObjectId(productId),
       date: currentDate,
     })
-    console.log(`succeful insert of Order ${response}`)
-    res.status(201).send(response.insertedId)
+    console.log(`succeful insert of Order`)
+    res.status(201).send(`succeful insert of Order`)
   } catch (err) {
     console.error(err)
     res.status(501).send(err)
