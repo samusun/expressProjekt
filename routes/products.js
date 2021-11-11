@@ -47,8 +47,8 @@ router.post("/", async (req, res) => {
 
   try {
     const response = await db.products.createOne({ name, cost, amount })
-    console.log(`succeful insert of product ${response}`)
-    res.status(201).send(response.insertedId)
+    console.log(`succeful insert of Product`)
+    res.status(201).send(`succeful insert of Product`)
   } catch (err) {
     console.error(err)
     res.status(501).send(err)
